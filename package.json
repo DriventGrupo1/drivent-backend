@@ -23,7 +23,8 @@
     "dev:migration:run": "npm run dev:load-envs prisma migrate deploy",
     "dev:migration:generate": "npm run dev:load-envs prisma migrate dev",
     "dev:seed": "npm run dev:load-envs prisma db seed",
-    "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts"
+    "dev": "cross-env NODE_ENV=development nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register ./src/server.ts' -e ts",
+    "test:ci": "jest --config ./jest.config.js --collectCoverage --coverageDirectory=\"./coverage\" --ci --reporters=default --reporters=jest-junit --watchAll=false"
   },
   "keywords": [
     "driven.t",
