@@ -5,6 +5,8 @@ module.exports = {
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
+  "collectCoverageFrom": ["src/**/*.js", "!**/node_modules/**"],
+  "coverageReporters": ["html", "text", "text-summary", "cobertura"],
   testMatch: ['<rootDir>/tests/**/*.(test|spec).ts'],
   setupFiles: ['<rootDir>/tests/setup-envs.ts'],
   setupFilesAfterEnv: ['<rootDir>/tests/setup-files-after-env.ts'],
