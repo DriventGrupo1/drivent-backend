@@ -1,7 +1,7 @@
 import { invalidDataError, notFoundError, unauthorizedError } from '@/errors';
 import { CardPaymentParams, PaymentParams } from '@/protocols';
 import { enrollmentRepository, paymentsRepository, ticketsRepository } from '@/repositories';
-import sgMail from "@sendgrid/mail";
+import sgMail from '@sendgrid/mail';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -27,7 +27,7 @@ async function getPaymentByTicketId(userId: number, ticketId: number) {
 
 async function paymentProcess(ticketId: number, userId: number, cardData: CardPaymentParams, userEmail: string) {
   const { ticket } = await verifyTicketAndEnrollment(userId, ticketId);
-  ticket.TicketType.price
+  ticket.TicketType.price;
 
   const paymentData: PaymentParams = {
     ticketId,
@@ -41,21 +41,30 @@ async function paymentProcess(ticketId: number, userId: number, cardData: CardPa
 
   const email = {
     to: userEmail,
-    from: "drivent_api@outlook.com",
-    subject: "Drivent: Ticket Payment Confirmed",
+    from: 'drivent_api@outlook.com',
+    subject: 'Drivent: Ticket Payment Confirmed',
     text: `
       The payment of your ticket has been confirmed. 
       Price: R$ ${ticket.TicketType.price}. 
       Card last digits: ${paymentData.cardLastDigits}. 
-      Type of ticket: ${ticket.TicketType.isRemote? 'Online.' : (ticket.TicketType.includesHotel? 'Presential with hotel.' : 'Presential without hotel.')}
+      Type of ticket: ${
+        ticket.TicketType.isRemote
+          ? 'Online.'
+          : ticket.TicketType.includesHotel
+          ? 'Presential with hotel.'
+          : 'Presential without hotel.'
+      }
     `,
   };
 
-  sgMail.send(email).then(() => {
-    console.log("Message sent");
-  }).catch((error) => {
-    console.error(error);
-  });
+  sgMail
+    .send(email)
+    .then(() => {
+      console.log('Message sent');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   return payment;
 }
