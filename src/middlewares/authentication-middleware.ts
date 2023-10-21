@@ -10,12 +10,13 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
   const token = authHeader.split(' ')[1];
   if (!token) throw unauthorizedError();
 
-  const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload;
+  const { userId, userEmail } = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload;
 
   const session = await authenticationRepository.findSession(token);
   if (!session) throw unauthorizedError();
 
   req.userId = userId;
+  req.userEmail = userEmail;
   next();
 }
 
@@ -23,4 +24,5 @@ export type AuthenticatedRequest = Request & JWTPayload;
 
 type JWTPayload = {
   userId: number;
+  userEmail: string;
 };
