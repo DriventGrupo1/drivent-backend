@@ -12,7 +12,7 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
 
   await validatePasswordOrFail(password, user.password);
 
-  const token = await createSession(user.id);
+  const token = await createSession(user.id, email);
 
   return {
     user: exclude(user, 'password'),
@@ -27,8 +27,8 @@ async function getUserOrFail(email: string): Promise<GetUserOrFailResult> {
   return user;
 }
 
-async function createSession(userId: number) {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET);
+async function createSession(userId: number, userEmail: string) {
+  const token = jwt.sign({ userId, userEmail }, process.env.JWT_SECRET);
   await authenticationRepository.createSession({
     token,
     userId,
