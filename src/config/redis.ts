@@ -1,12 +1,15 @@
 import { createClient } from 'redis';
+import { loadEnv } from './envs';
+loadEnv();
 
 export const DEFAULT_EXP = 3600;
+console.log();
 
-export let redis = createClient({
+export const redis = createClient({
   password: process.env.REDIS_PASSWORD,
   socket: {
-    host: 'redis-14229.c285.us-west-2-2.ec2.cloud.redislabs.com',
-    port: 14229,
+    host: process.env.REDIS_HOSTNAME,
+    port: Number(process.env.REDIS_PORT),
   },
 });
 
