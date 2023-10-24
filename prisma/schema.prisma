@@ -32,28 +32,30 @@ model Session {
 }
 
 model Event {
-  id                 Int      @id @default(autoincrement())
-  title              String   @db.VarChar(255)
-  backgroundImageUrl String   @db.VarChar(255)
-  logoImageUrl       String   @db.VarChar(255)
+  id                 Int        @id @default(autoincrement())
+  title              String     @db.VarChar(255)
+  backgroundImageUrl String     @db.VarChar(255)
+  logoImageUrl       String     @db.VarChar(255)
   startsAt           DateTime
   endsAt             DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+  Activity           Activity[]
 }
 
 model Enrollment {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  cpf       String    @db.VarChar(255)
-  birthday  DateTime
-  phone     String    @db.VarChar(255)
-  userId    Int       @unique
-  User      User      @relation(fields: [userId], references: [id])
-  Address   Address[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Ticket    Ticket?
+  id                 Int                  @id @default(autoincrement())
+  name               String               @db.VarChar(255)
+  cpf                String               @db.VarChar(255)
+  birthday           DateTime
+  phone              String               @db.VarChar(255)
+  userId             Int                  @unique
+  User               User                 @relation(fields: [userId], references: [id])
+  Address            Address[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  Ticket             Ticket?
+  ActivityEnrollment ActivityEnrollment[]
 }
 
 model Address {
@@ -138,4 +140,35 @@ model Booking {
   roomId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Activity {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  capacity           Int
+  date               DateTime
+  startTime          Int
+  endTime            Int
+  auditorium         Auditorium
+  eventId            Int
+  Event              Event                @relation(fields: [eventId], references: [id])
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  ActivityEnrollment ActivityEnrollment[]
+}
+
+model ActivityEnrollment {
+  id           Int        @id @default(autoincrement())
+  enrollmentId Int
+  activityId   Int
+  Activity     Activity   @relation(fields: [activityId], references: [id])
+  Enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+enum Auditorium {
+  PRINCIPAL
+  LATERAL
+  WORKSHOP
 }
