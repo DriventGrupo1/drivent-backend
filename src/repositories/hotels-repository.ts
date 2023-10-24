@@ -25,7 +25,6 @@ async function findRoomsByHotelId(hotelId: number) {
       hotel.Rooms.forEach((room) => {
         countBooked += room.Booking.length;
         capacity += room.capacity;
-        delete room.Booking;
       });
 
       return {
