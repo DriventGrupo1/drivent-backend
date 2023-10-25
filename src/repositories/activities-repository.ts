@@ -9,7 +9,10 @@ async function findActivityById(activityId: number) {
 
 async function getActivitiesByEventId(eventId: number) {
   return prisma.activity.findMany({
-    where: {eventId}
+    where: {eventId},
+    orderBy: {
+      date: 'asc'
+    }
   });
 }
 
