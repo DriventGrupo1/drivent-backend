@@ -15,10 +15,15 @@ async function findByRoomId(roomId: number) {
 }
 
 async function findByUserId(userId: number) {
-  return prisma.booking.findFirst({
+  const result = await prisma.booking.findFirst({
     where: { userId },
-    include: { Room: true },
+    include: { Room: { include: { Hotel: true } } },
   });
+  if (result) {
+    const bookings = await findByRoomId(result.roomId);
+    return { ...result, bookings: bookings.length };
+  }
+  return result;
 }
 
 async function upsertBooking({ id, roomId, userId }: UpdateBookingParams) {
