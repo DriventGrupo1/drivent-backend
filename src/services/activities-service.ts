@@ -26,6 +26,12 @@ async function checkActivity(activityId: number) {
   if (activity.capacity <= activity.ActivityEnrollment.length) throw cannotSubscribeToActivityError();
 }
 
+async function getActivitiesByEventId(eventId: number){
+  const activities = await activitiesRepository.getActivitiesByEventId(eventId)
+  return activities
+}
+
 export const activitiesService = {
   subscribeToActivity,
+  getActivitiesByEventId
 };

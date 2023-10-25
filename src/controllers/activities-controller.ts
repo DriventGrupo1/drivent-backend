@@ -11,3 +11,11 @@ export async function subscribeToActivity(req: AuthenticatedRequest, res: Respon
 
   return res.status(httpStatus.OK).send({ activityId: activity.id });
 }
+
+export async function getActivitiesByEventId(req: AuthenticatedRequest, res: Response) {
+  const eventId = Number(req.params.eventId)
+
+  const activities = await activitiesService.getActivitiesByEventId(eventId)
+
+  return res.status(httpStatus.OK).send(activities)
+}

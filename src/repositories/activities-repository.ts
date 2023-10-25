@@ -7,6 +7,13 @@ async function findActivityById(activityId: number) {
   });
 }
 
+async function getActivitiesByEventId(eventId: number) {
+  return prisma.activity.findMany({
+    where: {eventId}
+  });
+}
+
 export const activitiesRepository = {
   findActivityById,
+  getActivitiesByEventId
 };
