@@ -7,10 +7,7 @@ export async function getBooking(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const booking = await bookingService.getBooking(userId);
 
-  return res.status(httpStatus.OK).send({
-    id: booking.id,
-    Room: booking.Room,
-  });
+  return res.status(httpStatus.OK).send(booking);
 }
 
 export async function bookRoom(req: AuthenticatedRequest, res: Response) {
