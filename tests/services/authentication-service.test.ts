@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { createUser } from '../factories';
 import { cleanDb } from '../helpers';
 import { prisma } from '@/config';
@@ -14,7 +14,7 @@ beforeAll(async () => {
 describe('signIn', () => {
   const generateParams = () => ({
     email: faker.internet.email(),
-    password: faker.internet.password(6),
+    password: faker.internet.password({ length: 6 }),
   });
 
   it('should throw InvalidCredentialError if there is no user for given email', async () => {

@@ -4,17 +4,17 @@ import { createOrUpdateEnrollmentSchema } from '@/schemas';
 
 describe('createEnrollmentSchema', () => {
   const generateValidInput = () => ({
-    name: faker.name.findName(),
+    name: faker.person.fullName(),
     cpf: generateCPF(),
     birthday: faker.date.past().toISOString(),
     phone: '(21) 98999-9999',
     address: {
       cep: '90830-563',
-      street: faker.address.streetName(),
-      city: faker.address.city(),
-      number: faker.datatype.number().toString(),
+      street: faker.location.street(),
+      city: faker.location.city(),
+      number: faker.number.int().toString(),
       state: faker.helpers.arrayElement(getStates()).code,
-      neighborhood: faker.address.secondaryAddress(),
+      neighborhood: faker.location.secondaryAddress(),
       addressDetail: faker.lorem.sentence(),
     },
   });
@@ -179,7 +179,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            street: faker.datatype.number(),
+            street: faker.number.int(),
           },
         });
 
@@ -204,7 +204,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            city: faker.datatype.number(),
+            city: faker.number.int(),
           },
         });
 
@@ -229,7 +229,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            number: faker.datatype.number(),
+            number: faker.number.int(),
           },
         });
 
@@ -268,7 +268,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            state: faker.datatype.number(),
+            state: faker.number.int(),
           },
         });
 
@@ -293,7 +293,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            neighborhood: faker.datatype.number(),
+            neighborhood: faker.number.int(),
           },
         });
 
@@ -336,7 +336,7 @@ describe('createEnrollmentSchema', () => {
           ...input,
           address: {
             ...input.address,
-            addressDetail: faker.datatype.number(),
+            addressDetail: faker.number.int(),
           },
         });
 
