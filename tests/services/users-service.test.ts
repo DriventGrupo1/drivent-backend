@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import bcrypt from 'bcrypt';
 import { createUser as createUserSeed, createEvent as createEventSeed } from '../factories';
 import { cleanDb } from '../helpers';
@@ -48,7 +48,7 @@ describe('createUser', () => {
   });
 
   it('should hash user password', async () => {
-    const rawPassword = faker.internet.password(6);
+    const rawPassword = faker.internet.password({ length: 6 });
     const user = await userService.createUser({
       email: faker.internet.email(),
       password: rawPassword,

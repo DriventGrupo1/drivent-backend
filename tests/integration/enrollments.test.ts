@@ -1,5 +1,5 @@
 import { generateCPF, getStates } from '@brazilian-utils/brazilian-utils';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import httpStatus from 'http-status';
 import * as jwt from 'jsonwebtoken';
@@ -138,17 +138,17 @@ describe('POST /enrollments', () => {
 
     describe('when body is valid', () => {
       const generateValidBody = () => ({
-        name: faker.name.findName(),
+        name: faker.person.fullName(),
         cpf: generateCPF(),
         birthday: faker.date.past().toISOString(),
         phone: '(21) 98999-9999',
         address: {
           cep: '90830-563',
-          street: faker.address.streetName(),
-          city: faker.address.city(),
-          number: faker.datatype.number().toString(),
+          street: faker.location.street(),
+          city: faker.location.city(),
+          number: faker.number.int().toString(),
           state: faker.helpers.arrayElement(getStates()).code,
-          neighborhood: faker.address.secondaryAddress(),
+          neighborhood: faker.location.secondaryAddress(),
           addressDetail: faker.lorem.sentence(),
         },
       });
@@ -190,17 +190,17 @@ describe('POST /enrollments', () => {
 
     describe('when body is invalid', () => {
       const generateInvalidBody = () => ({
-        name: faker.name.findName(),
+        name: faker.person.fullName(),
         cpf: generateCPF(),
         birthday: faker.date.past().toISOString(),
         phone: '(21) 98999-9999',
         address: {
           cep: '0',
-          street: faker.address.streetName(),
-          city: faker.address.city(),
-          number: faker.datatype.number().toString(),
+          street: faker.location.street(),
+          city: faker.location.city(),
+          number: faker.number.int().toString(),
           state: faker.helpers.arrayElement(getStates()).code,
-          neighborhood: faker.address.secondaryAddress(),
+          neighborhood: faker.location.secondaryAddress(),
           addressDetail: faker.lorem.sentence(),
         },
       });
