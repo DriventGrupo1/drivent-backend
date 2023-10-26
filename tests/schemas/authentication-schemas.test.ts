@@ -1,10 +1,10 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { signInSchema } from '@/schemas';
 
 describe('signInSchema', () => {
   const generateValidInput = () => ({
     email: faker.internet.email(),
-    password: faker.internet.password(6),
+    password: faker.internet.password({ length: 6 }),
   });
 
   describe('when email is not valid', () => {
@@ -40,7 +40,7 @@ describe('signInSchema', () => {
     it('should return error if password is not a string', () => {
       const input = generateValidInput();
 
-      const { error } = signInSchema.validate({ ...input, password: faker.datatype.number() });
+      const { error } = signInSchema.validate({ ...input, password: faker.number.int() });
 
       expect(error).toBeDefined();
     });

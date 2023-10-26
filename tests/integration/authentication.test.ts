@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import httpStatus from 'http-status';
 import supertest from 'supertest';
 import { createUser } from '../factories';
@@ -30,7 +30,7 @@ describe('POST /auth/sign-in', () => {
   describe('when body is valid', () => {
     const generateValidBody = () => ({
       email: faker.internet.email(),
-      password: faker.internet.password(6),
+      password: faker.internet.password({ length: 6 }),
     });
 
     it('should respond with status 401 if there is no user for given email', async () => {
