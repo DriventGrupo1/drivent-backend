@@ -3,7 +3,6 @@ import { loadEnv } from './envs';
 loadEnv();
 
 export const DEFAULT_EXP = 3600;
-console.log();
 
 export const redis = createClient({
   password: process.env.REDIS_PASSWORD,

@@ -6,7 +6,7 @@ export async function createTicketType(isRemote?: boolean, includesHotel?: boole
   return prisma.ticketType.create({
     data: {
       name: faker.person.fullName(),
-      price: faker.number.int(),
+      price: faker.number.int({ min: 10, max: 300 }),
       isRemote: isRemote !== undefined ? isRemote : faker.datatype.boolean(),
       includesHotel: includesHotel !== undefined ? includesHotel : faker.datatype.boolean(),
     },
