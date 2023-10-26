@@ -1,9 +1,10 @@
-import { notFoundError } from '@/errors';
+import { invalidDataError, notFoundError } from '@/errors';
 import { cannotSubscribeToActivityError } from '@/errors/cannot-subscribe-to-activity-error';
 import {
   activitiesEnrollmentRepository,
   activitiesRepository,
   enrollmentRepository,
+  eventRepository,
   ticketsRepository,
 } from '@/repositories';
 
@@ -27,6 +28,10 @@ async function checkActivity(activityId: number) {
 }
 
 async function getActivitiesByEventId(eventId: number){
+  if (!eventId || isNaN(eventId)) throw invalidDataError('eventId');
+  const event = await eventRepository.findById(eventId)
+  if(!event) throw notFoundError()
+
   const activities = await activitiesRepository.getActivitiesByEventId(eventId)
   return activities
 }
