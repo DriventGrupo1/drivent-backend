@@ -18,7 +18,6 @@ import {
 } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
 import app, { init } from '@/app';
-import { createEvent, createUser } from "../factories";
 
 beforeAll(async ()=>{
     await init();
