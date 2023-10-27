@@ -40,7 +40,7 @@ describe('GET/activities/:eventId', ()=>{
         expect(response.statusCode).toBe(httpStatus.UNAUTHORIZED)
     })
 
-    describe('When token is valid', async ()=>{
+    describe('When token is valid', ()=>{
         it('Should return status 400 if eventId is invalid', async ()=>{
             const token = await generateValidToken()
 
@@ -61,7 +61,7 @@ describe('GET/activities/:eventId', ()=>{
             const token = await generateValidToken()
             const event = await createEvent()
             
-            const response = await server.get(`/activities/${event.id}`).set('Authoriaztion', `Bearer ${token}`)
+            const response = await server.get(`/activities/${event.id}`).set('Authorization', `Bearer ${token}`)
 
             expect(response.statusCode).toBe(httpStatus.OK)
         })
