@@ -1,5 +1,4 @@
-import { invalidDataError, notFoundError } from '@/errors';
-import { cannotSubscribeToActivityError } from '@/errors/cannot-subscribe-to-activity-error';
+import { invalidDataError, notFoundError, requestError } from '@/errors';
 import {
   activitiesEnrollmentRepository,
   activitiesRepository,
@@ -24,19 +23,19 @@ async function checkActivity(activityId: number) {
   const activity = await activitiesRepository.findActivityById(activityId);
   if (!activity) throw notFoundError();
 
-  if (activity.capacity <= activity.ActivityEnrollment.length) throw cannotSubscribeToActivityError();
+  if (activity.capacity <= activity.ActivityEnrollment.length) throw requestError(403, 'Forbidden');
 }
 
-async function getActivitiesByEventId(eventId: number){
+async function getActivitiesByEventId(eventId: number) {
   if (!eventId || isNaN(eventId)) throw invalidDataError('eventId');
-  const event = await eventRepository.findById(eventId)
-  if(!event) throw notFoundError()
+  const event = await eventRepository.findById(eventId);
+  if (!event) throw notFoundError();
 
-  const activities = await activitiesRepository.getActivitiesByEventId(eventId)
-  return activities
+  const activities = await activitiesRepository.getActivitiesByEventId(eventId);
+  return activities;
 }
 
 export const activitiesService = {
   subscribeToActivity,
-  getActivitiesByEventId
+  getActivitiesByEventId,
 };

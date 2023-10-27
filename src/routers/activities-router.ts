@@ -5,6 +5,9 @@ import { activitySchema } from '@/schemas/activities-schema';
 
 const activitiesRouter = Router();
 
-activitiesRouter.all('/*', authenticateToken).post('/', validateBody(activitySchema), subscribeToActivity).get('/:eventId', getActivitiesByEventId);
+activitiesRouter
+  .all('/*', authenticateToken)
+  .post('/', validateBody(activitySchema), subscribeToActivity)
+  .get('/:eventId', getActivitiesByEventId);
 
 export { activitiesRouter };
