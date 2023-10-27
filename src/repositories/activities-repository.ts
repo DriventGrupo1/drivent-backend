@@ -12,6 +12,20 @@ async function getActivitiesByEventId(eventId: number) {
     where: {eventId},
     orderBy: {
       date: 'asc'
+    },
+    select: {
+      id: true,
+      name: true,
+      capacity: true,
+      date: true,
+      startTime: true,
+      endTime: true,
+      auditorium: true,
+      _count:{
+        select:{
+          ActivityEnrollment: true
+        }
+      }
     }
   });
 }
