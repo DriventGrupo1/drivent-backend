@@ -6,6 +6,13 @@ async function createActivityEnrollment(activityId: number, enrollmentId: number
   });
 }
 
+async function findActivityEnrollment(activityId: number, enrollmentId: number) {
+  return prisma.activityEnrollment.findFirst({
+    where: { activityId, enrollmentId },
+  });
+}
+
 export const activitiesEnrollmentRepository = {
   createActivityEnrollment,
+  findActivityEnrollment,
 };

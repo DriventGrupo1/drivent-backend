@@ -16,6 +16,9 @@ async function subscribeToActivity(userId: number, activityId: number) {
   const ticket = await ticketsRepository.findTicketByEnrollmentId(enrollment.id);
   if (!ticket) throw notFoundError();
 
+  const userActivityEnrollment = await activitiesEnrollmentRepository.findActivityEnrollment(activityId, enrollment.id);
+  if (userActivityEnrollment) throw requestError(403, 'Forbidden');
+
   return activitiesEnrollmentRepository.createActivityEnrollment(activityId, enrollment.id);
 }
 
