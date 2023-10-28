@@ -1,7 +1,7 @@
 import { Address, Enrollment } from '@prisma/client';
 import { request } from '@/utils/request';
 import { enrollmentNotFoundError, invalidCepError } from '@/errors';
-import { addressRepository, CreateAddressParams, enrollmentRepository, CreateEnrollmentParams } from '@/repositories';
+import { CreateAddressParams, enrollmentRepository, CreateEnrollmentParams } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
 import { AddressEnrollment } from '@/protocols';
 
@@ -55,9 +55,13 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
 
   await getAddressFromCEP(address.cep);
 
-  const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
-
-  await addressRepository.upsert(newEnrollment.id, address, address);
+  await enrollmentRepository.upsertEnrollmentAndAddress(
+    params.userId,
+    enrollment,
+    exclude(enrollment, 'userId'),
+    address,
+    address,
+  );
 }
 
 function getAddressForUpsert(address: CreateAddressParams) {
