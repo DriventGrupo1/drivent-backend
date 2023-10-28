@@ -41,20 +41,18 @@ async function main() {
   const event = await prisma.event.findFirst();
 
   if (!event) {
-    prisma.$transaction(async (prisma) => {
-      const newEvent = await prisma.event.create({
-        data: {
-          title: 'Driven.t',
-          logoImageUrl: 'https://files.driven.com.br/images/logo-rounded.png',
-          backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
-          startsAt: dayjs().toDate(),
-          endsAt: dayjs().add(21, 'days').toDate(),
-        },
-      });
-      const activitiesData = createActivities(newEvent);
-      await prisma.activity.createMany({ data: activitiesData });
-      console.log(activitiesData);
+    const newEvent = await prisma.event.create({
+      data: {
+        title: 'Driven.t',
+        logoImageUrl: 'https://files.driven.com.br/images/logo-rounded.png',
+        backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
+        startsAt: dayjs().toDate(),
+        endsAt: dayjs().add(21, 'days').toDate(),
+      },
     });
+    const activitiesData = createActivities(newEvent);
+    await prisma.activity.createMany({ data: activitiesData });
+    console.log(activitiesData);
   } else {
     const activities = await prisma.activity.findMany({});
     if (!activities) {

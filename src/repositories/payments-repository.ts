@@ -11,7 +11,7 @@ async function findPaymentByTicketId(ticketId: number) {
 
 async function processTicketAndCreatePayment(ticketId: number, params: PaymentParams) {
   const result = await prisma.$transaction(async (prisma) => {
-    const updatedTicket = await prisma.ticket.update({
+    await prisma.ticket.update({
       where: {
         id: ticketId,
       },
@@ -27,10 +27,7 @@ async function processTicketAndCreatePayment(ticketId: number, params: PaymentPa
       },
     });
 
-    return {
-      updatedTicket,
-      createdPayment,
-    };
+    return createdPayment;
   });
 
   return result;
