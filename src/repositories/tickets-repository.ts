@@ -1,4 +1,3 @@
-import { TicketStatus } from '@prisma/client';
 import { prisma } from '@/config';
 import { CreateTicketParams } from '@/protocols';
 
@@ -34,23 +33,9 @@ async function findTicketById(ticketId: number) {
   return result;
 }
 
-async function ticketProcessPayment(ticketId: number) {
-  const result = prisma.ticket.update({
-    where: {
-      id: ticketId,
-    },
-    data: {
-      status: TicketStatus.PAID,
-    },
-  });
-
-  return result;
-}
-
 export const ticketsRepository = {
   findTicketTypes,
   findTicketByEnrollmentId,
   createTicket,
   findTicketById,
-  ticketProcessPayment,
 };
