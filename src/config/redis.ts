@@ -1,5 +1,6 @@
 import { createClient } from 'redis';
 import { loadEnv } from './envs';
+
 loadEnv();
 
 export const DEFAULT_EXP = 3600;

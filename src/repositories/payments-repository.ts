@@ -1,6 +1,6 @@
+import { TicketStatus } from '@prisma/client';
 import { prisma } from '@/config';
 import { PaymentParams } from '@/protocols';
-import { TicketStatus } from '@prisma/client';
 
 async function findPaymentByTicketId(ticketId: number) {
   const result = await prisma.payment.findFirst({

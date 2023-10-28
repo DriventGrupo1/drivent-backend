@@ -1,7 +1,7 @@
-import { invalidDataError, notFoundError, unauthorizedError } from '@/errors';
+import sgMail from '@sendgrid/mail';
 import { CardPaymentParams, PaymentParams } from '@/protocols';
 import { enrollmentRepository, paymentsRepository, ticketsRepository } from '@/repositories';
-import sgMail from '@sendgrid/mail';
+import { invalidDataError, notFoundError, unauthorizedError } from '@/errors';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 

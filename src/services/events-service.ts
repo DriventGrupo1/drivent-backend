@@ -1,6 +1,6 @@
 import { Event } from '@prisma/client';
-import { redis, DEFAULT_EXP } from '@/config';
 import dayjs from 'dayjs';
+import { redis, DEFAULT_EXP } from '@/config';
 import { notFoundError } from '@/errors';
 import { eventRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
