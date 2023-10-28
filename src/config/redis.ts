@@ -17,3 +17,7 @@ export async function connectRedis(): Promise<void> {
   console.log('Connecting to Redis...');
   await redis.on('error', (err) => console.log('Redis Client Error', err)).connect();
 }
+
+export async function disconnectRedis(): Promise<void> {
+  await redis?.disconnect();
+}
