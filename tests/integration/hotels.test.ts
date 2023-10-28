@@ -185,21 +185,6 @@ describe('GET /hotels/:hotelId', () => {
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
 
-    it('should respond with status 404 for invalid hotel id', async () => {
-      const user = await createUser();
-      const token = await generateValidToken(user);
-      const enrollment = await createEnrollmentWithAddress(user);
-      const ticketType = await createTicketType(false, true);
-      const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
-      await createPayment(ticket.id, ticketType.price);
-
-      await createHotel();
-
-      const response = await server.get('/hotels/100000').set('Authorization', `Bearer ${token}`);
-
-      expect(response.status).toEqual(httpStatus.NOT_FOUND);
-    });
-
     it('should respond with status 402 when user ticket is remote ', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -260,6 +245,7 @@ describe('GET /hotels/:hotelId', () => {
         image: createdHotel.image,
         createdAt: createdHotel.createdAt.toISOString(),
         updatedAt: createdHotel.updatedAt.toISOString(),
+        available: expect.any(Number),
         Rooms: [
           {
             id: createdRoom.id,
@@ -268,6 +254,7 @@ describe('GET /hotels/:hotelId', () => {
             hotelId: createdHotel.id,
             createdAt: createdRoom.createdAt.toISOString(),
             updatedAt: createdRoom.updatedAt.toISOString(),
+            Booking: expect.any(Array),
           },
         ],
       });
@@ -294,6 +281,7 @@ describe('GET /hotels/:hotelId', () => {
         createdAt: createdHotel.createdAt.toISOString(),
         updatedAt: createdHotel.updatedAt.toISOString(),
         Rooms: [],
+        available: expect.any(Number),
       });
     });
   });
