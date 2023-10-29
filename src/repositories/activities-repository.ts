@@ -11,7 +11,7 @@ async function getActivitiesByEventId(eventId: number, enrollmentId: number) {
   return prisma.activity.findMany({
     where: { eventId },
     orderBy: {
-      date: 'asc'
+      date: 'asc',
     },
     select: {
       id: true,

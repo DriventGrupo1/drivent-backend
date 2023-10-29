@@ -1,6 +1,6 @@
-import { prisma } from '@/config';
 import { faker } from '@faker-js/faker';
 import { Auditorium, Event } from '@prisma/client';
+import { prisma } from '@/config';
 
 export function createActivity(event: Event) {
   return prisma.activity.create({

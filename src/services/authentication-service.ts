@@ -4,13 +4,12 @@ import jwt from 'jsonwebtoken';
 import jwt_decode from 'jwt-decode';
 import { OAuth2Client } from 'google-auth-library';
 import qs from 'qs';
-import { invalidCredentialsError } from '@/errors';
+import { loadEnv } from '../config/envs';
 import { userService } from '.';
 import { authenticationRepository, userRepository } from '@/repositories';
 import { exclude } from '@/utils/prisma-utils';
-import { loadEnv } from '../config/envs';
-import { prisma } from '@/config';
 import { request } from '@/utils/request';
+import { invalidCredentialsError } from '@/errors';
 
 loadEnv();
 
