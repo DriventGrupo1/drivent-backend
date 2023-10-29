@@ -7,7 +7,7 @@ async function findActivityById(activityId: number) {
   });
 }
 
-async function getActivitiesByEventId(eventId: number) {
+async function getActivitiesByEventId(eventId: number, enrollmentId: number) {
   return prisma.activity.findMany({
     where: { eventId },
     orderBy: {
@@ -21,12 +21,34 @@ async function getActivitiesByEventId(eventId: number) {
       startTime: true,
       endTime: true,
       auditorium: true,
+      ActivityEnrollment: {
+        where: {
+          enrollmentId,
+        }
+      },
       _count:{
         select:{
           ActivityEnrollment: true
         }
       }
     }
+  })
+  .then((activities)=>{
+    const newActivities = activities.map((activity)=>{
+      if(activity.ActivityEnrollment.length > 0){
+        delete activity.ActivityEnrollment
+        return {
+          ...activity,
+          subscribed: true,
+        }
+      }
+      delete activity.ActivityEnrollment
+      return {
+        ...activity,
+        subscribed: false,
+      }
+    })
+    return newActivities
   });
 }
 
