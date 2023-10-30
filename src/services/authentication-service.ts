@@ -70,8 +70,12 @@ async function signInGit(code: string) {
 
   const userData = await request.get(GIT_USERINFO_URL, configs);
   const { id, email } = userData.data as GitUserInfo;
+
+  console.log('console01: ', id, email);
   if (email !== null) {
     const user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
+    console.log('console01: ', email, user);
+
     const token = await createSession(user.id, email);
     if (!user) {
       const user = await userService.createUser({ email, password: id.toString() });
@@ -87,7 +91,7 @@ async function signInGit(code: string) {
       token,
     };
   } else {
-    const user = await userService.createUser({ email: id.toString(), password: id.toString() });
+    const user = await userService.createUser({ email: '${id.toString()}@email.com', password: id.toString() });
     const token = await createSession(user.id, email);
     return {
       user: exclude(user, 'password'),
