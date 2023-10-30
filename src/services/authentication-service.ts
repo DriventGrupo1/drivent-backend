@@ -61,40 +61,39 @@ async function signInGit(code: string) {
     client_id: process.env.GIT_CLIENT_ID,
     client_secret: process.env.GIT_CLIENT_SECRET,
   };
-  console.log('Console 01: ', params);
 
   const { data } = await request.post(GIT_AUTH_URL, params);
-  console.log('Console 02: ', data);
   const gitToken = qs.parse(data);
-  console.log('Console 03: ', gitToken);
 
   const GIT_USERINFO_URL = 'https://api.github.com/user';
   const configs = { headers: { Authorization: 'Bearer ' + gitToken.access_token } };
 
   const userData = await request.get(GIT_USERINFO_URL, configs);
-  console.log('Console 04: ', userData);
   const { id, email } = userData.data as GitUserInfo;
-  console.log('Console 05: ', id, email);
-
-  const user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
-  console.log('Console 06: ', user);
-
-  if (!user) {
-    const user = await userService.createUser({ email, password: id.toString() });
-    console.log('Console 07: ', user);
+  if (email !== null) {
+    const user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
     const token = await createSession(user.id, email);
-    console.log('Console 08: ', token);
+    if (!user) {
+      const user = await userService.createUser({ email, password: id.toString() });
+      const token = await createSession(user.id, email);
+      return {
+        user: exclude(user, 'password'),
+        token,
+      };
+    }
+
+    return {
+      user: exclude(user, 'password'),
+      token,
+    };
+  } else {
+    const user = await userService.createUser({ email: id.toString(), password: id.toString() });
+    const token = await createSession(user.id, email);
     return {
       user: exclude(user, 'password'),
       token,
     };
   }
-  const token = await createSession(user.id, email);
-
-  return {
-    user: exclude(user, 'password'),
-    token,
-  };
 }
 
 async function getUserOrFail(email: string): Promise<GetUserOrFailResult> {
