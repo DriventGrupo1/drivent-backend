@@ -92,6 +92,7 @@ async function signInGit(code: string) {
     };
   } else {
     const user = await userService.createUser({ email: `${id.toString()}@email.com`, password: id.toString() });
+
     const token = await createSession(user.id, email);
     return {
       user: exclude(user, 'password'),
